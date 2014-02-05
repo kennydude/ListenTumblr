@@ -6,7 +6,8 @@
 <div class="container" id="posts">
 	<div class="alert alert-info hide" id="enableNotifications">
 		<p>Enable Next Song Notifications</p>
-		<button class="btn" id="enN">Enable</button>
+		<button class="btn btn-default" id="enN">Enable</button>
+		<button class="btn btn-default" id="noNotif">No lol</button>
 	</div>
 </div>
 <div class="cis c b w" id="loading">
@@ -15,17 +16,21 @@
 <div class="hide">
 	<div id="template" class="row track">
 		<div class="col-xs-1">
-			<span class="playing hide">
-				<span style="float:right;color:#FFF;font-size:35px;" class="glyphicon glyphicon-volume-up"></span>
-			</span>
+			<button class="btn btn-link playing hide" title="Now Playing">
+				<span style="color:#FFF;" class="glyphicon glyphicon-volume-up"></span>
+			</button>
 			<button class="btn btn-default playThisTrack">
 				<span class="glyphicon glyphicon-play"></span>
 			</button>
+			<a class="btn btn-default permalink">
+				<span class="glyphicon glyphicon-paperclip"></span>
+			</a>
 		</div>
 		<div class="col-xs-2"><img class="coverArt" src="http://placekitten.com/100/100" /></div>
 		<div class="col-xs-9">
 			<h5 class="title">Track Title</h5>
 			<div class="sub">by XYZ on thw album YYY</div>
+			<div class="tags"></div>
 		</div>
 	</div>
 </div>
@@ -57,6 +62,7 @@
 </div>
 {% endblock %}
 {% block scripts %}
+window.BLOG = "{{ blog }}";
 window.GETPREFIX = "?blog={{ blog }}{% if tag %}&tag={{tag}}{% endif %}";
 fetchListen("");
 {% endblock %}

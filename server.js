@@ -1,4 +1,4 @@
-var port = process.env.PORT || 1336;
+var port = process.env.PORT || process.env.VCAP_APP_PORT || 1336;
 var api_key = process.env.KEY;
 
 var swig = require('swig'),

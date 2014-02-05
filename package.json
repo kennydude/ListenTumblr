@@ -5,5 +5,8 @@
 		"swig" : "*",
 		"express" : "*",
 		"superagent" : "*"
+	},
+	 "scripts": {
+		"start": "node server.js"
 	}
 }

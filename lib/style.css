@@ -5,7 +5,7 @@ body{
 .b{
 	background: rgba(200,200,200,0.4);
 	padding: 10px;
-	border-radius: 5px;
+	border-radius: 2px;
 }
 .w{
 	background: #FFF;
@@ -35,8 +35,22 @@ img.coverArt{
 	margin-bottom: 5px;
 	text-shadow: #333 0px 0px 5px; -webit-text-shadow: #333 0px 0px 5px;
 	color: #FFF;
+	transition: background 0.2s;
+-webkit-transition: background 0.2s;
 }
 #thecurrenttrack{
-	max-width: 200px;
+	width: 200px;
 	overflow-y: scroll;
+}
+.track.current{
+	background: rgba(200,200,200,0.4); 
+	border-radius: 4px;
+}
+.tags{
+	margin-top: 10px;
+	font-size: 11px;
+}
+.tags a{
+	margin-right: 5px;
+	color: #FFF;
 }
