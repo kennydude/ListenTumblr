@@ -1,0 +1,42 @@
+body{
+	background: url('/turntable.jpg') no-repeat center center fixed;
+	background-size: cover;
+}
+.b{
+	background: rgba(200,200,200,0.4);
+	padding: 10px;
+	border-radius: 5px;
+}
+.w{
+	background: #FFF;
+}
+.c{
+	text-align: center;
+}
+.hide{
+	display: none;
+}
+h1,h2,h3,h4{
+	margin: 0;
+	padding-bottom: 5px;
+}
+img.coverArt{
+	width: 100%;
+}
+.bf{
+	position: fixed;
+	bottom: 0;left:0;right:0;
+}
+#curAlbumArt{
+	margin-left: 10px;
+	height: 45px;
+}
+.track{
+	margin-bottom: 5px;
+	text-shadow: #333 0px 0px 5px; -webit-text-shadow: #333 0px 0px 5px;
+	color: #FFF;
+}
+#thecurrenttrack{
+	max-width: 200px;
+	overflow-y: scroll;
+}
