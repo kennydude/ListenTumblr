@@ -1,0 +1,19 @@
+{
+  "name": "ListenTumblr",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kennydude/ListenTumblr",
+  "authors": [
+    "Joe Simpson <headbangerkenny@googlemail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ember": "~1.9.1"
+  }
+}

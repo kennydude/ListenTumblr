@@ -1,0 +1,53 @@
+body{
+	background: #EEE;
+	font-family: "Lato", sans-serif;
+	margin: 0;
+}
+*{
+	box-sizing: border-box;
+}
+.header{
+	color: #FFF;
+	background: #333;
+	padding: 15px;
+}
+.header h1{
+	margin: 0;
+}
+
+/* wall */
+.wall{
+	padding-top: 15px;
+	padding-bottom: 50px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.wall .item{
+	min-width: 200px;
+	max-width: 200px;
+	margin-bottom: 15px;
+}
+.wall .art{
+	width: 200px;
+}
+
+.track_name{
+	font-weight: 600;
+	overflow: hidden;
+	max-height: 20px;
+}
+
+/* now playing */
+.nowplaying{
+	position: fixed; bottom: 0; left: 0; right: 0;
+	padding: 10px;
+	background: #333;
+	color: #FFF;
+	display: flex;
+}
+.nowplaying .art{
+	height: 45px;
+	min-width: 45px;
+	margin-right: 5px;
+}

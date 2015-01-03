@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>ListenToTumblr</title>
+		<link rel="stylesheet" href="//brick.a.ssl.fastly.net/Lato:400,600" />
+		<link rel="stylesheet" href="/style.css" />
+	</head>
+	<body>
+
+
+		<script type="text/x-handlebars" data-template-name="home">
+
+		<div class="welcome">
+
+			<h1>ListenToTumblr</h1>
+			<p>todo</p>
+
+		</div>
+
+		</script>
+		<script type="text/x-handlebars" data-template-name="posts">
+
+			<div class="header">
+				<h1>{{ blog.title }}</h1>
+			</div>
+
+			{{view "player" track=track}}
+
+			<div class="wall">
+				{{#each track in posts itemController="track"}}
+				<div class="item">
+					<img {{bind-attr src=track.album_art}} {{action "play"}} class="art" />
+					<div class="track_name">{{ track.track_name }}</div>
+					{{ track.artist }}
+				</div>
+				{{/each}}
+			</div>
+			<div class="nowplaying" {{bind-attr style=nowPlayingStyle}}>
+				<img {{bind-attr src=track.album_art}} class="art" />
+				<div>
+					<div class="track_name">{{ track.track_name }}</div>
+					{{ track.artist }}
+				</div>
+			</div>
+
+		</script>
+		<script type="text/x-handlebars" data-template-name="player">
+			<audio {{bind-attr src=track.audio_url}} autoplay>
+					Major issue: you do not have support for HMTL5 audio!!
+			</audio>
+		</script>
+
+		<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="/bower_components/handlebars/handlebars.min.js"></script>
+		<script type="text/javascript" src="/bower_components/ember/ember.min.js"></script>
+		<script type="text/javascript" src="/app.js"></script>
+	</body>
+</html>
