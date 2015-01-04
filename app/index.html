@@ -19,6 +19,9 @@
 		</div>
 
 		</script>
+		<script type="text/x-handlebars" data-template-name="loading">
+			<div class="cis"><img width="25" height="25" src="/load.gif" /></div>
+		</script>
 		<script type="text/x-handlebars" data-template-name="posts">
 
 			<div class="header">
@@ -26,23 +29,60 @@
 			</div>
 
 			{{view "player" track=track}}
+			{{view "scroll"}}
+
+			{{#unless notificationPermission}}
+			<div class="message">
+				Want now playing notifications? <button {{action "enableNotifications"}}>Yes Please!</button>
+				<button {{action "closeNotificationMessage"}}>No</button>
+			</div>
+			{{/unless}}
 
 			<div class="wall">
-				{{#each track in posts itemController="track"}}
-				<div class="item">
-					<img {{bind-attr src=track.album_art}} {{action "play"}} class="art" />
-					<div class="track_name">{{ track.track_name }}</div>
-					{{ track.artist }}
+				{{#each Ltrack in posts itemController="track"}}
+				<div class="item" {{bind-attr class="controller.selected:selected" }}>
+					<img {{bind-attr src=Ltrack.album_art}} {{action "play"}} class="art" />
+					<div class="track_name">
+						{{ Ltrack.track_name }}
+					</div>
+					{{ Ltrack.artist }}
 				</div>
 				{{/each}}
 			</div>
+			{{#if loading}}
+			<div class="message">
+				Please wait...
+			</div>
+			{{/if}}
+
+			{{#if track.id}}
 			<div class="nowplaying" {{bind-attr style=nowPlayingStyle}}>
-				<img {{bind-attr src=track.album_art}} class="art" />
+				<div>
+					<img {{bind-attr src=track.album_art}} class="art" />
+				</div>
+				<div class="button" {{ action "playPause" }}>
+					{{#if track.playing}}
+						<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="96" height="96" viewBox="0 0 96 96">
+<path d="M34 92h-28c-1.104 0-2-0.9-2-2v-84c0-1.1 0.896-2 2-2h28c1.104 0 2 0.9 2 2v84c0 1.1-0.896 2-2 2zM8 88h24v-80h-24v80z" fill="#FFF"/>
+<path d="M90 92h-28c-1.1 0-2-0.9-2-2v-84c0-1.1 0.9-2 2-2h28c1.1 0 2 0.9 2 2v84c0 1.1-0.9 2-2 2zM64 88h24v-80h-24v80z" fill="#FFF"/>
+</svg>
+					{{else}}
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100.0px" height="100px" viewBox="0 0 283.46 283.46" enable-background="new 0 0 283.46 283.46" xml:space="preserve">
+<path fill="#FFF" d="M58.383,14.747c-1.829,0.911-2.993,2.783-2.993,4.823l0.009,244.329c0,2.041,1.163,3.913,2.984,4.823  c1.83,0.911,4.022,0.717,5.675-0.522l161.871-122.165c1.35-1.012,2.142-2.613,2.142-4.3c0-1.704-0.792-3.289-2.142-4.317  L64.041,15.252C62.405,14.03,60.213,13.819,58.383,14.747z M66.183,30.414c14.925,11.249,137.494,103.732,147.528,111.321  c-10.034,7.572-132.604,100.072-147.52,111.32C66.191,234.192,66.183,49.276,66.183,30.414z"/>
+</svg>
+					{{/if}}
+				</div>
+				<div class="button" {{ action "nextTrack" track.index }}>
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100px" height="84.2105263158px" viewBox="0 0 114 96">
+<path d="M2 88.312c-0.344 0-0.692-0.084-1-0.268-0.62-0.352-1-1.016-1-1.732v-76.62c0-0.716 0.38-1.376 1-1.732 0.616-0.36 1.384-0.36 2 0l41 23.664v-21.932c0-0.716 0.38-1.376 1-1.732 0.616-0.364 1.384-0.364 2 0l66.36 38.3c0.62 0.36 1 1.020 1 1.736 0 0.72-0.38 1.376-1 1.736l-66.36 38.312c-0.616 0.364-1.384 0.364-2 0-0.62-0.352-1-1.016-1-1.732v-21.928l-41 23.66c-0.308 0.184-0.656 0.268-1 0.268zM4 13.156v69.692l41-23.668c0.616-0.36 1.384-0.36 2 0 0.62 0.356 1 1.020 1 1.736v21.932l60.36-34.852-60.36-34.84v21.932c0 0.716-0.38 1.376-1 1.732-0.616 0.364-1.384 0.364-2 0l-41-23.664z" fill="#FFF"/>
+</svg>
+				</div>
 				<div>
 					<div class="track_name">{{ track.track_name }}</div>
 					{{ track.artist }}
 				</div>
 			</div>
+			{{/if}}
 
 		</script>
 		<script type="text/x-handlebars" data-template-name="player">
@@ -50,6 +90,11 @@
 					Major issue: you do not have support for HMTL5 audio!!
 			</audio>
 		</script>
+		<!--
+http://thenounproject.com/term/next/69452/
+http://thenounproject.com/term/pause/69454/
+http://thenounproject.com/term/play/89656/
+	-->
 
 		<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="/bower_components/handlebars/handlebars.min.js"></script>

@@ -44,7 +44,10 @@ app.get("/_posts", function(req, res){
 					audio_url : audio_url,
 					artist : data.artist || data.source_title,
 					album : data.album,
-					track_name : data.track_name || sanitize(data.caption, {allowedTags:[]})
+					track_name : data.track_name || sanitize(data.caption, {allowedTags:[]}),
+					tags : data.tags,
+					index : ((req.query['offset'] || 0)*1) + (p*1),
+					id : data.id
 				};
 
 				rsp.push(post);
