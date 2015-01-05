@@ -34,6 +34,15 @@ ListenTumblr.PostsRoute = Ember.Route.extend({
 	controllerName : "posts"
 });
 
+ListenTumblr.HomeController = Ember.ObjectController.extend({
+	blog : "",
+	actions : {
+		jump : function(){
+			this.transitionToRoute('posts', this.get("blog"));
+		}
+	}
+});
+
 ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 	nowPlayingStyle : Ember.computed("model.track.elapsed", "model.track.total", function(){
 		var w = (this.get("model.track.elapsed") / this.get("model.track.total"))*100;
@@ -41,6 +50,7 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 	}),
 	actions : {
 		getMoreStuff : function(){
+			console.log("get more stuff");
 			this.set("model.loading", true);
 			var params = this.get("params");
 			params.offset = this.get("model.posts.length");
@@ -49,6 +59,7 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 			$.getJSON("/_posts", params).then(function(rsp){
 				self.set("model.loading", false);
 				self.get("model.posts").addObjects(rsp.posts);
+				self.trigger("gotMoreStuff");
 			});
 		},
 		nextTrack : function(currentIndex){
@@ -77,14 +88,18 @@ ListenTumblr.ScrollView = Ember.View.extend({
 	didInsertElement : function(){
 		var self = this;
 
-		var t = undefined;
+		var can = true;
 
 		$(window).scroll(function () { 
 			if ($(window).scrollTop() >= $(document).height() - $(window).height() - 60) {
-				if(t == $(document).height()){ return; }
-				t = $(document).height();
+				if(!can){ return; }
+				can = false;
 				self.get("controller").send("getMoreStuff");
 			}
+		});
+
+		this.get("controller").on("gotMoreStuff", this, function(){
+			can = true;
 		});
 	}
 })
@@ -149,15 +164,3 @@ ListenTumblr.TrackController = Ember.ObjectController.extend({
 ListenTumblr.Router.reopen({
   location: 'history'
 });
-
-function rsz(){
-	$(".cis").each(function(){
-		$(this).css({
-			"position" : "absolute",
-			"left" : ( ($(window).width()/2) - ($(this).width()/2) ) + "px",
-			"top" : ( ($(window).height()/2) - ($(this).height()/2) ) + "px"
-		});
-	});
-}
-$(window).on("resize", rsz);
-$(document).ready(function(){ rsz();rsz(); } );
