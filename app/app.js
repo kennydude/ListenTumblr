@@ -19,6 +19,7 @@ ListenTumblr.PostsRoute = Ember.Route.extend({
 				params[y] = transition.params[k][y];
 			}
 		}
+		console.log("ok");
 
 		return $.getJSON("/_posts", params).then(function(rsp){
 			rsp.track = {};
@@ -80,6 +81,10 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 		},
 		playPause : function(){
 			this.trigger("playPauseEvent");
+		},
+		tagLink : function(blog, tag){
+			this.transitionToRoute("home");
+			this.transitionToRoute('posts.byTag', blog, tag);
 		}
 	}
 });
