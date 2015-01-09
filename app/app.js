@@ -89,7 +89,13 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 			+this.get("model.nowPlayingStyle.fill")+", "
 			+this.get("model.nowPlayingStyle.fill")+" "+w+"%, "
 			+this.get("model.nowPlayingStyle.background")+" "+w+"%, "
-			+this.get("model.nowPlayingStyle.background")+")";
+			+this.get("model.nowPlayingStyle.background")+");" +
+			/* fixing safari :( */
+			"background: -webkit-linear-gradient(to right, "
+			+this.get("model.nowPlayingStyle.fill")+", "
+			+this.get("model.nowPlayingStyle.fill")+" "+w+"%, "
+			+this.get("model.nowPlayingStyle.background")+" "+w+"%, "
+			+this.get("model.nowPlayingStyle.background")+");";
 	}),
 	singlePageView : Ember.computed("model.track.id", "model.blog.name", function(){
 		return "/blog/" + this.get("model.blog.name") + "/post/" + this.get("model.track.id");
@@ -125,6 +131,7 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 			self.set("model.notificationPermission", true);
 		},
 		playPause : function(){
+			console.log("play/pause");
 			this.trigger("playPauseEvent");
 		},
 		tagLink : function(blog, tag){
@@ -136,13 +143,17 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 
 ListenTumblr.PostController = ListenTumblr.PostsController.extend({
 	controlStyle : Ember.computed("nowPlayingStyle", "model.track.width", "model.track.height", function(){
-		return this.get("nowPlayingStyle") + "; width: " + this.get("model.track.width") + "; height: " +
-			this.get("model.track.height") + "; top: -" + this.get("model.track.height");
+		return this.get("nowPlayingStyle") + "px; width: " + this.get("model.track.width") + "px; height: " +
+			this.get("model.track.height") + "px; top: -" + this.get("model.track.height") + "px";
 	}),
 	actions : {
 		imageLoaded : function(img){
 			this.set("model.track.width", img.width());
 			this.set("model.track.height", img.height());
+		},
+		playPause : function(){
+			console.log("play/pause");
+			this.trigger("playPauseEvent");
 		}
 	}
 });
