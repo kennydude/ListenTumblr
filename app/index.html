@@ -115,6 +115,7 @@
 			{{#if track.id}}
 			<div class="bottomBar">
 				<div class="more">
+					<a target="_blank" {{bind-attr href=singlePageView}}>single view</a>
 					<a target="_blank" {{bind-attr href=track.post_url}}>permalink</a>
 					{{#each tag in track.tags}}
 						<a href="#" title="jump to songs in this tag [will stop music playing]" {{ action "tagLink" blog.name tag }}>{{ tag }}</a>

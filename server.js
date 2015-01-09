@@ -7,8 +7,16 @@ var	request = require("superagent"),
 
 var app = express();
 
-function sendApp(req, res){
+var sendApp = function(req, res){
 	res.sendFile(__dirname + "/app/index.html");
+}
+
+if(process.env['NODE_ENV'] == "production"){
+	var AppFile = require("fs").readFileSync(__dirname + "/app/index.html").toString();
+
+	sendApp = function(req, res){
+		res.set("Content-Type", "text/html").end(AppFile);
+	}
 }
 
 app.get("/blog/:blogname/tagged/:tag", sendApp);
@@ -25,7 +33,7 @@ function sortPost(data, req, p){
 
 	return {
 		post_url : data.post_url,
-		album_art : data.album_art || "http://placekitten.com/g/200/200",
+		album_art : data.album_art || "http://placekitten.com/g/500/500",
 		audio_url : audio_url,
 		artist : data.artist || data.source_title,
 		album : data.album,

@@ -91,6 +91,9 @@ ListenTumblr.PostsController = Ember.ObjectController.extend(Ember.Evented, {
 			+this.get("model.nowPlayingStyle.background")+" "+w+"%, "
 			+this.get("model.nowPlayingStyle.background")+")";
 	}),
+	singlePageView : Ember.computed("model.track.id", "model.blog.name", function(){
+		return "/blog/" + this.get("model.blog.name") + "/post/" + this.get("model.track.id");
+	}),
 	actions : {
 		getMoreStuff : function(){
 			console.log("get more stuff");
@@ -206,7 +209,7 @@ ListenTumblr.PlayerView = Ember.View.extend({
 			self.set("track.playing", true);
 			if(self.get("track.hasNotified") != true){
 				// Notifications if enabled
-				if (window['Notification']) {
+				if (window['Notification'] && self.get("track.track_name") != undefined) {
 					if (Notification.permission === "granted") {
 						new Notification("🔊 " + self.get("track.track_name"), {
 							body : self.get("track.artist"),
