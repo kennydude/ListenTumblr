@@ -27,6 +27,10 @@ function sortPost(data, req, p){
 	if(!p){ p = 0; }
 
 	var audio_url = data['audio_url'];
+	if(!audio_url){
+		return null;
+	}
+	
 	if(audio_url.indexOf("tumblr.com/audio_file") != -1){
 		audio_url += "?plead=please-dont-download-this-or-our-lawyers-wont-let-us-host-audio";
 	}
@@ -62,8 +66,10 @@ app.get("/_posts", function(req, res){
 
 		try{
 			for(var p in body['response']['posts']){
-				var data = body['response']['posts'][p];
-				rsp.push(sortPost(data, req, p));
+				var data = sortPost(body['response']['posts'][p], req, p);
+				if(data != null){ // sometimes we can't
+					rsp.push(data);
+				}
 			}
 
 			res.json({
@@ -71,6 +77,7 @@ app.get("/_posts", function(req, res){
 				posts : rsp
 			});
 		} catch(e){
+			console.log(e, body);
 			res.status(503).end(e.toString());
 		}
 	});
@@ -95,6 +102,7 @@ app.get("/_post", function(req, res){
 				track : sortPost(body['response']['posts'][0], req)
 			});
 		} catch(e){
+			console.log(e, body);
 			res.status(503).end(e.toString());
 		}
 	});
